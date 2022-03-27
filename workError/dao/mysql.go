@@ -20,7 +20,7 @@ func Qeury(db *sql.DB, query string) ([]map[string]interface{}, error) {
 	rows, err := db.Query(query)
 	defer rows.Close()
 	if err != nil {
-		return nil, errors.Wrap(err, "Dao:query error")
+		panic("open rows fail")
 	}
 
 	columns, _ := rows.Columns()

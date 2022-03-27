@@ -9,7 +9,7 @@ import (
 )
 
 func main() {
-	db := dao.NewOpen("root", "123456", "127.0.0.1", "3306", "db_test")
+	db := dao.NewOpen("root", "", "127.0.0.1", "3306", "mysql")
 	defer db.Close()
 	query := "select * from user;"
 	records, err := dao.Qeury(db, query)
@@ -17,8 +17,12 @@ func main() {
 		fmt.Println("user no record")
 	}
 	if err != nil {
-		log.Fatalf("other errors row scan,casue type: %T\ncasue vaule:%v \ncasue trace: %v\n",
+		log.Fatalf("other errors row scan,casue type: %T\ncasue vaule:%v \ncasue trace: %+v\n",
 			errors.Cause(err), errors.Cause(err), err)
 	}
-	fmt.Println(records)
+	for _, v := range records {
+		for key, value := range v {
+			fmt.Printf("%v:%s\n", key, value)
+		}
+	}
 }
