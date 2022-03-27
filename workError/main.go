@@ -15,7 +15,8 @@ func main() {
 	records, err := dao.Qeury(db, query)
 	if errors.Is(err, sql.ErrNoRows) {
 		fmt.Println("user no record")
-	} else {
+	}
+	if err != nil {
 		log.Fatalf("other errors row scan,casue type: %T\ncasue vaule:%v \ncasue trace: %v\n",
 			errors.Cause(err), errors.Cause(err), err)
 	}

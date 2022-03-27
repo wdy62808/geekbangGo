@@ -25,15 +25,17 @@ func Qeury(db *sql.DB, query string) ([]map[string]interface{}, error) {
 
 	columns, _ := rows.Columns()
 	scanArgs := make([]interface{}, len(columns))
-
+	values := make([]interface{}, len(columns))
+	for j := range values {
+		scanArgs[j] = &values[j]
+	}
 	record := make(map[string]interface{})
 	records := make([]map[string]interface{}, 0)
 	for rows.Next() {
 		if err := rows.Scan(scanArgs...); err != nil {
 			return records, errors.Wrap(err, "row scan error")
 		}
-
-		for i, col := range scanArgs {
+		for i, col := range values {
 			if col != nil {
 				record[columns[i]] = col
 			}
